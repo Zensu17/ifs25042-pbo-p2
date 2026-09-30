@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class ActivityRepository implements IActivityRepository {
     private final List<Activity> data = new ArrayList<>();
-    private int idCounter = 0;
+    private int nextId = 1;
 
     @Override
     public List<Activity> findAll() {
@@ -22,7 +22,7 @@ public class ActivityRepository implements IActivityRepository {
 
     @Override
     public Activity save(String title, String day, String time) {
-        Activity activity = new Activity(++idCounter, title, day, time);
+        Activity activity = new Activity(nextId++, title, day, time);
         data.add(activity);
         return activity;
     }
@@ -33,7 +33,13 @@ public class ActivityRepository implements IActivityRepository {
     }
 
     @Override
-    public void update(Activity activity) {
-        // Entity mutable disimpan by-reference: perubahan sudah tercermin di list.
+    public boolean update(Activity activity) {
+        for (int index = 0; index < data.size(); index++) {
+            if (data.get(index).getId() == activity.getId()) {
+                data.set(index, activity);
+                return true;
+            }
+        }
+        return false;
     }
 }

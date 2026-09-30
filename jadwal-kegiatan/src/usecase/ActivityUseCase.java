@@ -5,8 +5,6 @@ import domain.entity.SortOption;
 import domain.repository.IActivityRepository;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class ActivityUseCase {
     private final IActivityRepository repository;
@@ -29,36 +27,20 @@ public class ActivityUseCase {
 
     /** Parameter null berarti field tidak diubah. @return true jika kegiatan ditemukan */
     public boolean updateActivity(int id, String title, String day, String time) {
-        Optional<Activity> found = repository.findById(id);
-        if (found.isEmpty()) {
-            return false;
-        }
-
-        Activity activity = found.get();
-        if (title != null) {
-            activity.changeTitle(title);
-        }
-        if (day != null) {
-            activity.changeDay(day);
-        }
-        if (time != null) {
-            activity.changeTime(time);
-        }
-
-        repository.update(activity);
-        return true;
+        return repository.findById(id)
+                .map(activity -> activity.withChanges(title, day, time))
+                .map(repository::update)
+                .orElse(false);
     }
 
     public List<Activity> searchActivities(String keyword) {
         String lower = keyword.toLowerCase(Locale.ROOT);
         return repository.findAll().stream()
-            .filter(a -> a.getTitle().toLowerCase(Locale.ROOT).contains(lower))
-            .collect(Collectors.toList());
+                .filter(a -> a.getTitle().toLowerCase(Locale.ROOT).contains(lower))
+                .toList();
     }
 
     public List<Activity> sortActivities(SortOption option) {
-        return repository.findAll().stream()
-            .sorted(option.comparator())
-            .collect(Collectors.toList());
+        return repository.findAll().stream().sorted(option.comparator()).toList();
     }
 }

@@ -1,23 +1,56 @@
 package adapter.presenter;
 
 import domain.entity.Item;
+import java.io.PrintStream;
 import java.util.List;
 
 public class ItemPresenter {
+    private final PrintStream out;
+
+    public ItemPresenter(PrintStream out) {
+        this.out = out;
+    }
 
     private String format(Item i) {
-        return String.format("%d | %s | %d | %s", i.getId(), i.getName(), i.getQuantity(), i.getCategory());
+        return i.getId() + " | " + i.getName() + " | " + i.getQuantity() + " | " + i.getCategory();
     }
 
     private void printList(List<Item> list, String header, String emptyMessage) {
-        System.out.println(header);
+        out.println(header);
         if (list.isEmpty()) {
-            System.out.println(emptyMessage);
+            out.println(emptyMessage);
             return;
         }
         for (Item i : list) {
-            System.out.println(format(i));
+            out.println(format(i));
         }
+    }
+
+    public void showMenu() {
+        out.println("Menu:");
+        out.println("1. Tambah");
+        out.println("2. Ubah Stok");
+        out.println("3. Cari");
+        out.println("4. Urutkan");
+        out.println("5. Hapus");
+        out.println("x. Keluar");
+    }
+
+    public void showSortMenu() {
+        out.println("Pilihan Pengurutan:");
+        out.println("1. Nama (A-Z)");
+        out.println("2. Nama (Z-A)");
+        out.println("3. Jumlah (Terkecil -> Terbesar)");
+        out.println("4. Jumlah (Terbesar -> Terkecil)");
+        out.println("x. Batal");
+    }
+
+    public void showTitle(String title) {
+        out.println("[" + title + "]");
+    }
+
+    public void showBlankLine() {
+        out.println();
     }
 
     public void showItems(List<Item> list) {
@@ -33,38 +66,38 @@ public class ItemPresenter {
     }
 
     public void showAddSuccess(Item i) {
-        System.out.printf("Berhasil menambah barang: %s%n", format(i));
+        out.println("Berhasil menambah barang: " + format(i));
     }
 
     public void showRemoveSuccess() {
-        System.out.println("Berhasil menghapus barang.");
+        out.println("Berhasil menghapus barang.");
     }
 
     public void showRemoveFailed(int id) {
-        System.out.printf("[!] Gagal menghapus barang dengan ID: %d.%n", id);
+        out.println("[!] Gagal menghapus barang dengan ID: " + id + ".");
     }
 
     public void showUpdateSuccess() {
-        System.out.println("Berhasil mengubah stok barang.");
+        out.println("Berhasil mengubah stok barang.");
     }
 
     public void showUpdateFailed(int id) {
-        System.out.printf("[!] Gagal mengubah stok barang dengan ID: %d.%n", id);
+        out.println("[!] Gagal mengubah stok barang dengan ID: " + id + ".");
     }
 
     public void showInvalidChoice() {
-        System.out.println("[!] Pilihan tidak dimengerti.");
+        out.println("[!] Pilihan tidak dimengerti.");
     }
 
     public void showInvalidId() {
-        System.out.println("[!] ID tidak valid!");
+        out.println("[!] ID tidak valid!");
     }
 
     public void showInvalidQuantity() {
-        System.out.println("[!] Jumlah stok tidak valid!");
+        out.println("[!] Jumlah stok tidak valid!");
     }
 
     public void showInvalidSortOption() {
-        System.out.println("[!] Pilihan tidak valid!");
+        out.println("[!] Pilihan tidak valid!");
     }
 }

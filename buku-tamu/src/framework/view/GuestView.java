@@ -5,61 +5,49 @@ import framework.util.InputUtil;
 import usecase.GuestUseCase;
 
 public class GuestView {
+    private final InputUtil input;
     private final GuestUseCase useCase;
     private final GuestPresenter presenter;
 
-    public GuestView(GuestUseCase useCase, GuestPresenter presenter) {
+    public GuestView(InputUtil input, GuestUseCase useCase, GuestPresenter presenter) {
+        this.input = input;
         this.useCase = useCase;
         this.presenter = presenter;
     }
 
     public void show() {
-        boolean running = true;
-        while (running) {
+        while (true) {
             presenter.showGuests(useCase.getAllGuests());
-            printMenu();
+            presenter.showMenu();
 
-            switch (InputUtil.input("Pilih")) {
-                case "1":
-                    registerGuest();
-                    break;
-                case "2":
-                    searchGuest();
-                    break;
-                case "3":
-                    removeGuest();
-                    break;
-                case "x":
-                    running = false;
-                    break;
-                default:
-                    presenter.showInvalidChoice();
-                    break;
+            String choice = input.input("Pilih");
+            if (InputUtil.isCancel(choice)) {
+                return;
             }
 
-            if (running) {
-                System.out.println();
-            }
+            handleChoice(choice);
+            presenter.showBlankLine();
         }
     }
 
-    private void printMenu() {
-        System.out.println("Menu:");
-        System.out.println("1. Daftarkan");
-        System.out.println("2. Cari");
-        System.out.println("3. Hapus");
-        System.out.println("x. Keluar");
+    private void handleChoice(String choice) {
+        switch (choice) {
+            case "1" -> registerGuest();
+            case "2" -> searchGuest();
+            case "3" -> removeGuest();
+            default -> presenter.showInvalidChoice();
+        }
     }
 
     private void registerGuest() {
-        System.out.println("[Mendaftarkan Tamu]");
-        String name = InputUtil.input("Nama (x Jika Batal)");
-        if (name.equals("x")) {
+        presenter.showTitle("Mendaftarkan Tamu");
+        String name = input.input("Nama (x Jika Batal)");
+        if (InputUtil.isCancel(name)) {
             return;
         }
 
-        String purpose = InputUtil.input("Tujuan Kunjungan (x Jika Batal)");
-        if (purpose.equals("x")) {
+        String purpose = input.input("Tujuan Kunjungan (x Jika Batal)");
+        if (InputUtil.isCancel(purpose)) {
             return;
         }
 
@@ -67,17 +55,17 @@ public class GuestView {
     }
 
     private void searchGuest() {
-        System.out.println("[Mencari Tamu]");
-        String keyword = InputUtil.input("Nama (x Jika Batal)");
-        if (!keyword.equals("x")) {
+        presenter.showTitle("Mencari Tamu");
+        String keyword = input.input("Nama (x Jika Batal)");
+        if (!InputUtil.isCancel(keyword)) {
             presenter.showSearchResults(useCase.searchGuests(keyword), keyword);
         }
     }
 
     private void removeGuest() {
-        System.out.println("[Menghapus Tamu]");
-        String strId = InputUtil.input("[ID Tamu] yang dihapus (x Jika Batal)");
-        if (strId.equals("x")) {
+        presenter.showTitle("Menghapus Tamu");
+        String strId = input.input("[ID Tamu] yang dihapus (x Jika Batal)");
+        if (InputUtil.isCancel(strId)) {
             return;
         }
 

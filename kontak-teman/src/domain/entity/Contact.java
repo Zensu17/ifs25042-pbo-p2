@@ -1,10 +1,13 @@
 package domain.entity;
 
+import java.util.Objects;
+
+/** Entity immutable: perubahan menghasilkan instance baru. */
 public class Contact {
     private final int id;
-    private String name;
-    private String phone;
-    private String email;
+    private final String name;
+    private final String phone;
+    private final String email;
 
     public Contact(int id, String name, String phone, String email) {
         this.id = id;
@@ -29,15 +32,12 @@ public class Contact {
         return email;
     }
 
-    public void changeName(String name) {
-        this.name = name;
-    }
-
-    public void changePhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void changeEmail(String email) {
-        this.email = email;
+    /** Parameter null berarti field dipertahankan. */
+    public Contact withChanges(String name, String phone, String email) {
+        return new Contact(
+                id,
+                Objects.requireNonNullElse(name, this.name),
+                Objects.requireNonNullElse(phone, this.phone),
+                Objects.requireNonNullElse(email, this.email));
     }
 }

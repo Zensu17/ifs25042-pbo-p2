@@ -11,10 +11,6 @@ public class FinanceView {
     private final FinanceUseCase useCase;
     private final FinancePresenter presenter;
 
-    public FinanceView(FinanceUseCase useCase, FinancePresenter presenter) {
-        this(new InputUtil(), useCase, presenter);
-    }
-
     public FinanceView(InputUtil input, FinanceUseCase useCase, FinancePresenter presenter) {
         this.input = input;
         this.useCase = useCase;
@@ -22,152 +18,120 @@ public class FinanceView {
     }
 
     public void show() {
-        run();
-    }
-
-    public void run() {
         while (true) {
-            presenter.transactionList(useCase.getAll(), useCase.getBalance());
-            printMenu();
-            String choice = input.readLine();
-            if (choice == null || choice.equalsIgnoreCase("x")) {
+            presenter.showTransactions(useCase.getAllTransactions(), useCase.getBalance());
+            presenter.showMenu();
+
+            String choice = input.input("Pilih");
+            if (InputUtil.isCancel(choice)) {
                 return;
             }
 
-            presenter.selectedChoice(choice);
-            switch (choice) {
-                case "1":
-                    addTransaction(TransactionType.INCOME);
-                    break;
-                case "2":
-                    addTransaction(TransactionType.EXPENSE);
-                    break;
-                case "3":
-                    search();
-                    break;
-                case "4":
-                    sort();
-                    break;
-                case "5":
-                    presenter.currentBalance(useCase.getBalance());
-                    break;
-                case "6":
-                    delete();
-                    break;
-                default:
-                    presenter.invalidChoice();
-                    break;
-            }
+            handleChoice(choice);
+            presenter.showBlankLine();
         }
     }
 
-    private void printMenu() {
-        System.out.println("Menu:");
-        System.out.println("1. Tambah Pemasukan");
-        System.out.println("2. Tambah Pengeluaran");
-        System.out.println("3. Cari");
-        System.out.println("4. Urutkan");
-        System.out.println("5. Lihat Saldo");
-        System.out.println("6. Hapus");
-        System.out.println("x. Keluar");
-        System.out.print("Pilih : ");
+    private void handleChoice(String choice) {
+        switch (choice) {
+            case "1" -> addTransaction(TransactionType.INCOME);
+            case "2" -> addTransaction(TransactionType.EXPENSE);
+            case "3" -> searchTransaction();
+            case "4" -> sortTransaction();
+            case "5" -> presenter.showBalance(useCase.getBalance());
+            case "6" -> removeTransaction();
+            default -> presenter.showInvalidChoice();
+        }
     }
 
     private void addTransaction(TransactionType type) {
-        System.out.print("Keterangan (x Jika Batal) : ");
-        String description = input.readLine();
-        if (description == null || description.equalsIgnoreCase("x")) {
-            System.out.println();
+        presenter.showTitle("Tambah " + type.getLabel());
+        String description = input.input("Keterangan (x Jika Batal)");
+        if (InputUtil.isCancel(description)) {
             return;
         }
 
-        System.out.print("Jumlah : ");
-        Long amount = parsePositiveAmount(input.readLine());
+        Long amount = parsePositiveAmount(input.input("Jumlah"));
         if (amount == null) {
-            presenter.invalidAmount();
+            presenter.showInvalidAmount();
             return;
         }
 
-        presenter.added(useCase.add(description, amount, type), useCase.getBalance());
+        presenter.showAddSuccess(useCase.addTransaction(description, amount, type));
     }
 
-    private void search() {
-        System.out.print("Kata Kunci (x Jika Batal) : ");
-        String keyword = input.readLine();
-        if (keyword == null || keyword.equalsIgnoreCase("x")) {
-            System.out.println();
-            return;
+    private void searchTransaction() {
+        presenter.showTitle("Cari Transaksi");
+        String keyword = input.input("Kata Kunci (x Jika Batal)");
+        if (!InputUtil.isCancel(keyword)) {
+            presenter.showSearchResults(useCase.searchTransactions(keyword), keyword);
         }
-
-        presenter.searchResult(keyword, useCase.search(keyword), useCase.getBalance());
     }
 
-    private void sort() {
-        System.out.println("1. Jumlah (Terkecil)");
-        System.out.println("2. Jumlah (Terbesar)");
-        System.out.println("3. Pemasukan Dulu");
-        System.out.println("4. Pengeluaran Dulu");
-        System.out.println("x. Batal");
-        System.out.print("Pilih : ");
-        String choice = input.readLine();
-        if (choice == null) {
-            return;
-        }
-        if (choice.equalsIgnoreCase("x")) {
-            System.out.println();
+    private void sortTransaction() {
+        presenter.showTitle("Urutkan Transaksi");
+        presenter.showSortMenu();
+
+        String choice = input.input("Pilih");
+        if (InputUtil.isCancel(choice)) {
             return;
         }
 
-        SortOption option = SortOption.fromChoice(choice);
+        SortOption option = mapSortOption(choice);
         if (option == null) {
-            presenter.invalidSortChoice();
+            presenter.showInvalidSortOption();
             return;
         }
 
-        presenter.sortedList(useCase.sort(option), useCase.getBalance());
+        presenter.showSortedTransactions(useCase.sortTransactions(option));
     }
 
-    private void delete() {
-        System.out.print("ID Transaksi (x Jika Batal) : ");
-        String raw = input.readLine();
-        if (raw == null || raw.equalsIgnoreCase("x")) {
-            System.out.println();
+    private void removeTransaction() {
+        presenter.showTitle("Hapus Transaksi");
+        String strId = input.input("ID Transaksi (x Jika Batal)");
+        if (InputUtil.isCancel(strId)) {
             return;
         }
-        Integer id = parseId(raw);
+
+        Integer id = parseId(strId);
         if (id == null) {
-            presenter.invalidId();
             return;
         }
 
-        if (!useCase.delete(id)) {
-            presenter.deleteFailed(id);
-            return;
+        if (useCase.removeTransaction(id)) {
+            presenter.showRemoveSuccess();
+        } else {
+            presenter.showRemoveFailed(id);
         }
-
-        presenter.deleted();
     }
 
-    private Long parsePositiveAmount(String value) {
-        if (value == null || value.isEmpty()) {
+    /** @return ID, atau null jika tidak valid (error sudah ditampilkan) */
+    private Integer parseId(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            presenter.showInvalidId();
             return null;
         }
+    }
+
+    /** @return jumlah > 0, atau null jika bukan angka atau <= 0 */
+    private Long parsePositiveAmount(String value) {
         try {
             long amount = Long.parseLong(value);
             return amount > 0 ? amount : null;
-        } catch (NumberFormatException exception) {
+        } catch (NumberFormatException e) {
             return null;
         }
     }
 
-    private Integer parseId(String value) {
-        if (value == null || value.isEmpty()) {
-            return null;
-        }
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException exception) {
-            return null;
-        }
+    private SortOption mapSortOption(String choice) {
+        return switch (choice) {
+            case "1" -> SortOption.AMOUNT_ASC;
+            case "2" -> SortOption.AMOUNT_DESC;
+            case "3" -> SortOption.INCOME_FIRST;
+            case "4" -> SortOption.EXPENSE_FIRST;
+            default -> null;
+        };
     }
 }

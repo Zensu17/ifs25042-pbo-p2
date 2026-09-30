@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class ItemRepository implements IItemRepository {
     private final List<Item> data = new ArrayList<>();
-    private int idCounter = 0;
+    private int nextId = 1;
 
     @Override
     public List<Item> findAll() {
@@ -22,7 +22,7 @@ public class ItemRepository implements IItemRepository {
 
     @Override
     public Item save(String name, int quantity, String category) {
-        Item item = new Item(++idCounter, name, quantity, category);
+        Item item = new Item(nextId++, name, quantity, category);
         data.add(item);
         return item;
     }
@@ -33,7 +33,13 @@ public class ItemRepository implements IItemRepository {
     }
 
     @Override
-    public void update(Item item) {
-        // Entity mutable disimpan by-reference: perubahan sudah tercermin di list.
+    public boolean update(Item item) {
+        for (int index = 0; index < data.size(); index++) {
+            if (data.get(index).getId() == item.getId()) {
+                data.set(index, item);
+                return true;
+            }
+        }
+        return false;
     }
 }

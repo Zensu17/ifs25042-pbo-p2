@@ -7,7 +7,7 @@ import java.util.List;
 
 public class GuestRepository implements IGuestRepository {
     private final List<Guest> data = new ArrayList<>();
-    private int idCounter = 0;
+    private int nextId = 1;
 
     @Override
     public List<Guest> findAll() {
@@ -16,7 +16,7 @@ public class GuestRepository implements IGuestRepository {
 
     @Override
     public Guest save(String name, String purpose) {
-        Guest guest = new Guest(++idCounter, name, purpose);
+        Guest guest = new Guest(nextId++, name, purpose);
         data.add(guest);
         return guest;
     }

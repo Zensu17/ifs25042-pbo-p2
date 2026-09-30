@@ -1,9 +1,10 @@
 package domain.entity;
 
+/** Entity immutable: perubahan menghasilkan instance baru. */
 public class Item {
     private final int id;
     private final String name;
-    private int quantity;
+    private final int quantity;
     private final String category;
 
     public Item(int id, String name, int quantity, String category) {
@@ -29,7 +30,7 @@ public class Item {
         return category;
     }
 
-    public void changeQuantity(int quantity) {
-        this.quantity = quantity;
+    public Item withQuantity(int quantity) {
+        return new Item(id, name, quantity, category);
     }
 }

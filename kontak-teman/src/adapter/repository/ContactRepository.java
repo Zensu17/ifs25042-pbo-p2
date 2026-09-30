@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class ContactRepository implements IContactRepository {
     private final List<Contact> data = new ArrayList<>();
-    private int idCounter = 0;
+    private int nextId = 1;
 
     @Override
     public List<Contact> findAll() {
@@ -22,7 +22,7 @@ public class ContactRepository implements IContactRepository {
 
     @Override
     public Contact save(String name, String phone, String email) {
-        Contact contact = new Contact(++idCounter, name, phone, email);
+        Contact contact = new Contact(nextId++, name, phone, email);
         data.add(contact);
         return contact;
     }
@@ -33,7 +33,13 @@ public class ContactRepository implements IContactRepository {
     }
 
     @Override
-    public void update(Contact contact) {
-        // Entity mutable disimpan by-reference: perubahan sudah tercermin di list.
+    public boolean update(Contact contact) {
+        for (int index = 0; index < data.size(); index++) {
+            if (data.get(index).getId() == contact.getId()) {
+                data.set(index, contact);
+                return true;
+            }
+        }
+        return false;
     }
 }

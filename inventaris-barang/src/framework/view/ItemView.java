@@ -6,55 +6,51 @@ import framework.util.InputUtil;
 import usecase.ItemUseCase;
 
 public class ItemView {
+    private final InputUtil input;
     private final ItemUseCase useCase;
     private final ItemPresenter presenter;
 
-    public ItemView(ItemUseCase useCase, ItemPresenter presenter) {
+    public ItemView(InputUtil input, ItemUseCase useCase, ItemPresenter presenter) {
+        this.input = input;
         this.useCase = useCase;
         this.presenter = presenter;
     }
 
     public void show() {
-        boolean running = true;
-        while (running) {
+        while (true) {
             presenter.showItems(useCase.getAllItems());
-            printMenu();
+            presenter.showMenu();
 
-            switch (InputUtil.input("Pilih")) {
-                case "1" -> addItem();
-                case "2" -> updateStock();
-                case "3" -> searchItem();
-                case "4" -> sortItem();
-                case "5" -> removeItem();
-                case "x" -> running = false;
-                default -> presenter.showInvalidChoice();
+            String choice = input.input("Pilih");
+            if (InputUtil.isCancel(choice)) {
+                return;
             }
 
-            if (running) {
-                System.out.println();
-            }
+            handleChoice(choice);
+            presenter.showBlankLine();
         }
     }
 
-    private void printMenu() {
-        System.out.println("Menu:");
-        System.out.println("1. Tambah");
-        System.out.println("2. Ubah Stok");
-        System.out.println("3. Cari");
-        System.out.println("4. Urutkan");
-        System.out.println("5. Hapus");
-        System.out.println("x. Keluar");
+    private void handleChoice(String choice) {
+        switch (choice) {
+            case "1" -> addItem();
+            case "2" -> updateStock();
+            case "3" -> searchItem();
+            case "4" -> sortItem();
+            case "5" -> removeItem();
+            default -> presenter.showInvalidChoice();
+        }
     }
 
     private void addItem() {
-        System.out.println("[Menambah Barang]");
-        String name = InputUtil.input("Nama (x Jika Batal)");
-        if (name.equals("x")) {
+        presenter.showTitle("Menambah Barang");
+        String name = input.input("Nama (x Jika Batal)");
+        if (InputUtil.isCancel(name)) {
             return;
         }
 
-        String strQuantity = InputUtil.input("Jumlah");
-        if (strQuantity.equals("x")) {
+        String strQuantity = input.input("Jumlah");
+        if (InputUtil.isCancel(strQuantity)) {
             return;
         }
 
@@ -64,8 +60,8 @@ public class ItemView {
             return;
         }
 
-        String category = InputUtil.input("Kategori (x Jika Batal)");
-        if (category.equals("x")) {
+        String category = input.input("Kategori (x Jika Batal)");
+        if (InputUtil.isCancel(category)) {
             return;
         }
 
@@ -73,9 +69,9 @@ public class ItemView {
     }
 
     private void updateStock() {
-        System.out.println("[Mengubah Stok]");
-        String strId = InputUtil.input("ID Barang yang diubah (x Jika Batal)");
-        if (strId.equals("x")) {
+        presenter.showTitle("Mengubah Stok");
+        String strId = input.input("ID Barang yang diubah (x Jika Batal)");
+        if (InputUtil.isCancel(strId)) {
             return;
         }
 
@@ -84,9 +80,9 @@ public class ItemView {
             return;
         }
 
-        String strQuantity = InputUtil.input("Jumlah Baru (Kosongkan jika tidak ingin mengubah)");
+        String strQuantity = blankToNull(input.input("Jumlah Baru (Kosongkan jika tidak ingin mengubah)"));
         Integer quantity = null; // null berarti stok tidak diubah
-        if (!strQuantity.isBlank()) {
+        if (strQuantity != null) {
             quantity = parseQuantity(strQuantity);
             if (quantity == null) {
                 presenter.showInvalidQuantity();
@@ -102,28 +98,23 @@ public class ItemView {
     }
 
     private void searchItem() {
-        System.out.println("[Mencari Barang]");
-        String keyword = InputUtil.input("Kata Kunci (x Jika Batal)");
-        if (!keyword.equals("x")) {
+        presenter.showTitle("Mencari Barang");
+        String keyword = input.input("Kata Kunci (x Jika Batal)");
+        if (!InputUtil.isCancel(keyword)) {
             presenter.showSearchResults(useCase.searchItems(keyword), keyword);
         }
     }
 
     private void sortItem() {
-        System.out.println("[Mengurutkan Barang]");
-        System.out.println("Pilihan Pengurutan:");
-        System.out.println("1. Nama (A-Z)");
-        System.out.println("2. Nama (Z-A)");
-        System.out.println("3. Jumlah (Terkecil -> Terbesar)");
-        System.out.println("4. Jumlah (Terbesar -> Terkecil)");
-        System.out.println("x. Batal");
+        presenter.showTitle("Mengurutkan Barang");
+        presenter.showSortMenu();
 
-        String input = InputUtil.input("Pilih");
-        if (input.equals("x")) {
+        String choice = input.input("Pilih");
+        if (InputUtil.isCancel(choice)) {
             return;
         }
 
-        SortOption option = mapSortOption(input);
+        SortOption option = mapSortOption(choice);
         if (option == null) {
             presenter.showInvalidSortOption();
             return;
@@ -133,9 +124,9 @@ public class ItemView {
     }
 
     private void removeItem() {
-        System.out.println("[Menghapus Barang]");
-        String strId = InputUtil.input("[ID Barang] yang dihapus (x Jika Batal)");
-        if (strId.equals("x")) {
+        presenter.showTitle("Menghapus Barang");
+        String strId = input.input("[ID Barang] yang dihapus (x Jika Batal)");
+        if (InputUtil.isCancel(strId)) {
             return;
         }
 
@@ -171,8 +162,13 @@ public class ItemView {
         }
     }
 
-    private SortOption mapSortOption(String input) {
-        return switch (input) {
+    /** Input kosong (atau EOF) berarti field tidak diubah. */
+    private String blankToNull(String value) {
+        return value == null || value.isBlank() ? null : value;
+    }
+
+    private SortOption mapSortOption(String choice) {
+        return switch (choice) {
             case "1" -> SortOption.NAME_ASC;
             case "2" -> SortOption.NAME_DESC;
             case "3" -> SortOption.QUANTITY_ASC;

@@ -1,23 +1,56 @@
 package adapter.presenter;
 
 import domain.entity.Activity;
+import java.io.PrintStream;
 import java.util.List;
 
 public class ActivityPresenter {
+    private final PrintStream out;
+
+    public ActivityPresenter(PrintStream out) {
+        this.out = out;
+    }
 
     private String format(Activity a) {
-        return String.format("%d | %s | %s | %s", a.getId(), a.getTitle(), a.getDay(), a.getTime());
+        return a.getId() + " | " + a.getTitle() + " | " + a.getDay() + " | " + a.getTime();
     }
 
     private void printList(List<Activity> list, String header, String emptyMessage) {
-        System.out.println(header);
+        out.println(header);
         if (list.isEmpty()) {
-            System.out.println(emptyMessage);
+            out.println(emptyMessage);
             return;
         }
         for (Activity a : list) {
-            System.out.println(format(a));
+            out.println(format(a));
         }
+    }
+
+    public void showMenu() {
+        out.println("Menu:");
+        out.println("1. Tambah");
+        out.println("2. Ubah");
+        out.println("3. Cari");
+        out.println("4. Urutkan");
+        out.println("5. Hapus");
+        out.println("x. Keluar");
+    }
+
+    public void showSortMenu() {
+        out.println("Pilihan Pengurutan:");
+        out.println("1. Hari (Senin -> Minggu)");
+        out.println("2. Waktu (Awal -> Akhir)");
+        out.println("3. Judul (A-Z)");
+        out.println("4. Judul (Z-A)");
+        out.println("x. Batal");
+    }
+
+    public void showTitle(String title) {
+        out.println("[" + title + "]");
+    }
+
+    public void showBlankLine() {
+        out.println();
     }
 
     public void showActivities(List<Activity> list) {
@@ -33,34 +66,34 @@ public class ActivityPresenter {
     }
 
     public void showAddSuccess(Activity a) {
-        System.out.printf("Berhasil menambah kegiatan: %s%n", format(a));
+        out.println("Berhasil menambah kegiatan: " + format(a));
     }
 
     public void showRemoveSuccess() {
-        System.out.println("Berhasil menghapus kegiatan.");
+        out.println("Berhasil menghapus kegiatan.");
     }
 
     public void showRemoveFailed(int id) {
-        System.out.printf("[!] Gagal menghapus kegiatan dengan ID: %d.%n", id);
+        out.println("[!] Gagal menghapus kegiatan dengan ID: " + id + ".");
     }
 
     public void showUpdateSuccess() {
-        System.out.println("Berhasil mengubah kegiatan.");
+        out.println("Berhasil mengubah kegiatan.");
     }
 
     public void showUpdateFailed(int id) {
-        System.out.printf("[!] Gagal mengubah kegiatan dengan ID: %d.%n", id);
+        out.println("[!] Gagal mengubah kegiatan dengan ID: " + id + ".");
     }
 
     public void showInvalidChoice() {
-        System.out.println("[!] Pilihan tidak dimengerti.");
+        out.println("[!] Pilihan tidak dimengerti.");
     }
 
     public void showInvalidId() {
-        System.out.println("[!] ID tidak valid!");
+        out.println("[!] ID tidak valid!");
     }
 
     public void showInvalidSortOption() {
-        System.out.println("[!] Pilihan tidak valid!");
+        out.println("[!] Pilihan tidak valid!");
     }
 }

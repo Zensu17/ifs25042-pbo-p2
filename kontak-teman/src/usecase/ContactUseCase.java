@@ -4,7 +4,7 @@ import domain.entity.Contact;
 import domain.entity.SortOption;
 import domain.repository.IContactRepository;
 import java.util.List;
-import java.util.Optional;
+import java.util.Locale;
 
 public class ContactUseCase {
     private final IContactRepository repository;
@@ -27,30 +27,16 @@ public class ContactUseCase {
 
     /** Parameter null berarti field tidak diubah. @return true jika kontak ditemukan */
     public boolean updateContact(int id, String name, String phone, String email) {
-        Optional<Contact> found = repository.findById(id);
-        if (found.isEmpty()) {
-            return false;
-        }
-
-        Contact contact = found.get();
-        if (name != null) {
-            contact.changeName(name);
-        }
-        if (phone != null) {
-            contact.changePhone(phone);
-        }
-        if (email != null) {
-            contact.changeEmail(email);
-        }
-
-        repository.update(contact);
-        return true;
+        return repository.findById(id)
+                .map(contact -> contact.withChanges(name, phone, email))
+                .map(repository::update)
+                .orElse(false);
     }
 
     public List<Contact> searchContacts(String keyword) {
-        String lower = keyword.toLowerCase();
+        String lower = keyword.toLowerCase(Locale.ROOT);
         return repository.findAll().stream()
-                .filter(c -> c.getName().toLowerCase().contains(lower))
+                .filter(c -> c.getName().toLowerCase(Locale.ROOT).contains(lower))
                 .toList();
     }
 

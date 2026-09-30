@@ -13,5 +13,6 @@ public interface IItemRepository {
 
     boolean deleteById(int id);
 
-    void update(Item item);
+    /** Mengganti barang yang ber-ID sama dengan {@code item}. @return false jika ID tidak ditemukan */
+    boolean update(Item item);
 }

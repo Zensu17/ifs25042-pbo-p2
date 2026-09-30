@@ -13,5 +13,6 @@ public interface IContactRepository {
 
     boolean deleteById(int id);
 
-    void update(Contact contact);
+    /** Mengganti kontak yang ber-ID sama dengan {@code contact}. @return false jika ID tidak ditemukan */
+    boolean update(Contact contact);
 }

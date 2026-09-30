@@ -1,33 +1,24 @@
 package domain.entity;
 
+import java.util.Comparator;
+
 public enum SortOption {
-    AMOUNT_ASC("Jumlah terkecil"),
-    AMOUNT_DESC("Jumlah terbesar"),
-    INCOME_FIRST("Pemasukan dulu"),
-    EXPENSE_FIRST("Pengeluaran dulu");
+    AMOUNT_ASC(Comparator.comparingLong(Transaction::getAmount)
+            .thenComparingInt(Transaction::getId)),
+    AMOUNT_DESC(Comparator.comparingLong(Transaction::getAmount).reversed()
+            .thenComparingInt(Transaction::getId)),
+    INCOME_FIRST(Comparator.comparing(Transaction::getType)
+            .thenComparingInt(Transaction::getId)),
+    EXPENSE_FIRST(Comparator.comparing(Transaction::getType, Comparator.reverseOrder())
+            .thenComparingInt(Transaction::getId));
 
-    private final String label;
+    private final Comparator<Transaction> comparator;
 
-    SortOption(String label) {
-        this.label = label;
+    SortOption(Comparator<Transaction> comparator) {
+        this.comparator = comparator;
     }
 
-    public String getLabel() {
-        return label;
-    }
-
-    public static SortOption fromChoice(String choice) {
-        switch (choice) {
-            case "1":
-                return AMOUNT_ASC;
-            case "2":
-                return AMOUNT_DESC;
-            case "3":
-                return INCOME_FIRST;
-            case "4":
-                return EXPENSE_FIRST;
-            default:
-                return null;
-        }
+    public Comparator<Transaction> comparator() {
+        return comparator;
     }
 }

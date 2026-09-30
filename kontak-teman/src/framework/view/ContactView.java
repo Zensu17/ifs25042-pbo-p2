@@ -6,60 +6,56 @@ import framework.util.InputUtil;
 import usecase.ContactUseCase;
 
 public class ContactView {
+    private final InputUtil input;
     private final ContactUseCase useCase;
     private final ContactPresenter presenter;
 
-    public ContactView(ContactUseCase useCase, ContactPresenter presenter) {
+    public ContactView(InputUtil input, ContactUseCase useCase, ContactPresenter presenter) {
+        this.input = input;
         this.useCase = useCase;
         this.presenter = presenter;
     }
 
     public void show() {
-        boolean running = true;
-        while (running) {
+        while (true) {
             presenter.showContacts(useCase.getAllContacts());
-            printMenu();
+            presenter.showMenu();
 
-            switch (InputUtil.input("Pilih")) {
-                case "1" -> addContact();
-                case "2" -> updateContact();
-                case "3" -> searchContact();
-                case "4" -> sortContact();
-                case "5" -> removeContact();
-                case "x" -> running = false;
-                default -> presenter.showInvalidChoice();
+            String choice = input.input("Pilih");
+            if (InputUtil.isCancel(choice)) {
+                return;
             }
 
-            if (running) {
-                System.out.println();
-            }
+            handleChoice(choice);
+            presenter.showBlankLine();
         }
     }
 
-    private void printMenu() {
-        System.out.println("Menu:");
-        System.out.println("1. Tambah");
-        System.out.println("2. Ubah");
-        System.out.println("3. Cari");
-        System.out.println("4. Urutkan");
-        System.out.println("5. Hapus");
-        System.out.println("x. Keluar");
+    private void handleChoice(String choice) {
+        switch (choice) {
+            case "1" -> addContact();
+            case "2" -> updateContact();
+            case "3" -> searchContact();
+            case "4" -> sortContact();
+            case "5" -> removeContact();
+            default -> presenter.showInvalidChoice();
+        }
     }
 
     private void addContact() {
-        System.out.println("[Menambah Kontak]");
-        String name = InputUtil.input("Nama (x Jika Batal)");
-        if (name.equals("x")) {
+        presenter.showTitle("Menambah Kontak");
+        String name = input.input("Nama (x Jika Batal)");
+        if (InputUtil.isCancel(name)) {
             return;
         }
 
-        String phone = InputUtil.input("Telepon");
-        if (phone.equals("x")) {
+        String phone = input.input("Telepon");
+        if (InputUtil.isCancel(phone)) {
             return;
         }
 
-        String email = InputUtil.input("Email");
-        if (email.equals("x")) {
+        String email = input.input("Email");
+        if (InputUtil.isCancel(email)) {
             return;
         }
 
@@ -67,9 +63,9 @@ public class ContactView {
     }
 
     private void updateContact() {
-        System.out.println("[Mengubah Kontak]");
-        String strId = InputUtil.input("ID Kontak yang diubah (x Jika Batal)");
-        if (strId.equals("x")) {
+        presenter.showTitle("Mengubah Kontak");
+        String strId = input.input("ID Kontak yang diubah (x Jika Batal)");
+        if (InputUtil.isCancel(strId)) {
             return;
         }
 
@@ -78,9 +74,9 @@ public class ContactView {
             return;
         }
 
-        String name = blankToNull(InputUtil.input("Nama Baru (Kosongkan jika tidak ingin mengubah)"));
-        String phone = blankToNull(InputUtil.input("Telepon Baru (Kosongkan jika tidak ingin mengubah)"));
-        String email = blankToNull(InputUtil.input("Email Baru (Kosongkan jika tidak ingin mengubah)"));
+        String name = blankToNull(input.input("Nama Baru (Kosongkan jika tidak ingin mengubah)"));
+        String phone = blankToNull(input.input("Telepon Baru (Kosongkan jika tidak ingin mengubah)"));
+        String email = blankToNull(input.input("Email Baru (Kosongkan jika tidak ingin mengubah)"));
 
         if (useCase.updateContact(id, name, phone, email)) {
             presenter.showUpdateSuccess();
@@ -90,26 +86,23 @@ public class ContactView {
     }
 
     private void searchContact() {
-        System.out.println("[Mencari Kontak]");
-        String keyword = InputUtil.input("Kata Kunci (x Jika Batal)");
-        if (!keyword.equals("x")) {
+        presenter.showTitle("Mencari Kontak");
+        String keyword = input.input("Kata Kunci (x Jika Batal)");
+        if (!InputUtil.isCancel(keyword)) {
             presenter.showSearchResults(useCase.searchContacts(keyword), keyword);
         }
     }
 
     private void sortContact() {
-        System.out.println("[Mengurutkan Kontak]");
-        System.out.println("Pilihan Pengurutan:");
-        System.out.println("1. Nama (A-Z)");
-        System.out.println("2. Nama (Z-A)");
-        System.out.println("x. Batal");
+        presenter.showTitle("Mengurutkan Kontak");
+        presenter.showSortMenu();
 
-        String input = InputUtil.input("Pilih");
-        if (input.equals("x")) {
+        String choice = input.input("Pilih");
+        if (InputUtil.isCancel(choice)) {
             return;
         }
 
-        SortOption option = mapSortOption(input);
+        SortOption option = mapSortOption(choice);
         if (option == null) {
             presenter.showInvalidSortOption();
             return;
@@ -119,9 +112,9 @@ public class ContactView {
     }
 
     private void removeContact() {
-        System.out.println("[Menghapus Kontak]");
-        String strId = InputUtil.input("[ID Kontak] yang dihapus (x Jika Batal)");
-        if (strId.equals("x")) {
+        presenter.showTitle("Menghapus Kontak");
+        String strId = input.input("[ID Kontak] yang dihapus (x Jika Batal)");
+        if (InputUtil.isCancel(strId)) {
             return;
         }
 
@@ -147,13 +140,13 @@ public class ContactView {
         }
     }
 
-    /** Input kosong berarti field tidak diubah. */
+    /** Input kosong (atau EOF) berarti field tidak diubah. */
     private String blankToNull(String value) {
-        return value.isBlank() ? null : value;
+        return value == null || value.isBlank() ? null : value;
     }
 
-    private SortOption mapSortOption(String input) {
-        return switch (input) {
+    private SortOption mapSortOption(String choice) {
+        return switch (choice) {
             case "1" -> SortOption.NAME_ASC;
             case "2" -> SortOption.NAME_DESC;
             default -> null;

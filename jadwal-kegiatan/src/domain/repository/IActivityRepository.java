@@ -13,5 +13,6 @@ public interface IActivityRepository {
 
     boolean deleteById(int id);
 
-    void update(Activity activity);
+    /** Mengganti kegiatan yang ber-ID sama dengan {@code activity}. @return false jika ID tidak ditemukan */
+    boolean update(Activity activity);
 }

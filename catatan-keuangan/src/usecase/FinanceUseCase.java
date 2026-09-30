@@ -4,9 +4,6 @@ import domain.entity.SortOption;
 import domain.entity.Transaction;
 import domain.entity.TransactionType;
 import domain.repository.ITransactionRepository;
-
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,63 +14,37 @@ public class FinanceUseCase {
         this.repository = repository;
     }
 
-    public Transaction add(String description, long amount, TransactionType type) {
-        return repository.save(description, amount, type);
-    }
-
-    public List<Transaction> getAll() {
+    public List<Transaction> getAllTransactions() {
         return repository.findAll();
     }
 
-    public List<Transaction> search(String keyword) {
-        String needle = keyword.toLowerCase(Locale.ROOT);
-        List<Transaction> found = new ArrayList<>();
-        for (Transaction transaction : repository.findAll()) {
-            if (transaction.getDescription().toLowerCase(Locale.ROOT).contains(needle)) {
-                found.add(transaction);
-            }
-        }
-        return found;
+    public Transaction addTransaction(String description, long amount, TransactionType type) {
+        return repository.save(description, amount, type);
     }
 
-    public List<Transaction> sort(SortOption option) {
-        List<Transaction> sorted = repository.findAll();
-        sorted.sort(comparatorFor(option));
-        return sorted;
-    }
-
-    public boolean delete(int id) {
+    public boolean removeTransaction(int id) {
         return repository.deleteById(id);
     }
 
-    public long getBalance() {
-        long income = 0;
-        long expense = 0;
-        for (Transaction transaction : repository.findAll()) {
-            if (transaction.getType() == TransactionType.INCOME) {
-                income += transaction.getAmount();
-            } else {
-                expense += transaction.getAmount();
-            }
-        }
-        return income - expense;
+    public List<Transaction> searchTransactions(String keyword) {
+        String lower = keyword.toLowerCase(Locale.ROOT);
+        return repository.findAll().stream()
+                .filter(t -> t.getDescription().toLowerCase(Locale.ROOT).contains(lower))
+                .toList();
     }
 
-    private Comparator<Transaction> comparatorFor(SortOption option) {
-        Comparator<Transaction> byId = Comparator.comparingInt(Transaction::getId);
-        switch (option) {
-            case AMOUNT_ASC:
-                return Comparator.comparingLong(Transaction::getAmount).thenComparing(byId);
-            case AMOUNT_DESC:
-                return Comparator.comparingLong(Transaction::getAmount).reversed().thenComparing(byId);
-            case INCOME_FIRST:
-                return Comparator.comparingInt((Transaction t) -> t.getType() == TransactionType.INCOME ? 0 : 1)
-                        .thenComparing(byId);
-            case EXPENSE_FIRST:
-                return Comparator.comparingInt((Transaction t) -> t.getType() == TransactionType.EXPENSE ? 0 : 1)
-                        .thenComparing(byId);
-            default:
-                return byId;
+    public List<Transaction> sortTransactions(SortOption option) {
+        return repository.findAll().stream().sorted(option.comparator()).toList();
+    }
+
+    /** @return total pemasukan dikurangi total pengeluaran */
+    public long getBalance() {
+        long balance = 0;
+        for (Transaction transaction : repository.findAll()) {
+            balance += transaction.getType() == TransactionType.INCOME
+                    ? transaction.getAmount()
+                    : -transaction.getAmount();
         }
+        return balance;
     }
 }

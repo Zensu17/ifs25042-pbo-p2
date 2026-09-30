@@ -4,7 +4,7 @@ import domain.entity.Item;
 import domain.entity.SortOption;
 import domain.repository.IItemRepository;
 import java.util.List;
-import java.util.Optional;
+import java.util.Locale;
 
 public class ItemUseCase {
     private final IItemRepository repository;
@@ -27,24 +27,16 @@ public class ItemUseCase {
 
     /** {@code quantity} null berarti stok tidak diubah. @return true jika barang ditemukan */
     public boolean updateStock(int id, Integer quantity) {
-        Optional<Item> found = repository.findById(id);
-        if (found.isEmpty()) {
-            return false;
-        }
-
-        Item item = found.get();
-        if (quantity != null) {
-            item.changeQuantity(quantity);
-        }
-
-        repository.update(item);
-        return true;
+        return repository.findById(id)
+                .map(item -> quantity == null ? item : item.withQuantity(quantity))
+                .map(repository::update)
+                .orElse(false);
     }
 
     public List<Item> searchItems(String keyword) {
-        String lower = keyword.toLowerCase();
+        String lower = keyword.toLowerCase(Locale.ROOT);
         return repository.findAll().stream()
-                .filter(i -> i.getName().toLowerCase().contains(lower))
+                .filter(i -> i.getName().toLowerCase(Locale.ROOT).contains(lower))
                 .toList();
     }
 

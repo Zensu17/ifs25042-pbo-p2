@@ -1,23 +1,54 @@
 package adapter.presenter;
 
 import domain.entity.Contact;
+import java.io.PrintStream;
 import java.util.List;
 
 public class ContactPresenter {
+    private final PrintStream out;
+
+    public ContactPresenter(PrintStream out) {
+        this.out = out;
+    }
 
     private String format(Contact c) {
-        return String.format("%d | %s | %s | %s", c.getId(), c.getName(), c.getPhone(), c.getEmail());
+        return c.getId() + " | " + c.getName() + " | " + c.getPhone() + " | " + c.getEmail();
     }
 
     private void printList(List<Contact> list, String header, String emptyMessage) {
-        System.out.println(header);
+        out.println(header);
         if (list.isEmpty()) {
-            System.out.println(emptyMessage);
+            out.println(emptyMessage);
             return;
         }
         for (Contact c : list) {
-            System.out.println(format(c));
+            out.println(format(c));
         }
+    }
+
+    public void showMenu() {
+        out.println("Menu:");
+        out.println("1. Tambah");
+        out.println("2. Ubah");
+        out.println("3. Cari");
+        out.println("4. Urutkan");
+        out.println("5. Hapus");
+        out.println("x. Keluar");
+    }
+
+    public void showSortMenu() {
+        out.println("Pilihan Pengurutan:");
+        out.println("1. Nama (A-Z)");
+        out.println("2. Nama (Z-A)");
+        out.println("x. Batal");
+    }
+
+    public void showTitle(String title) {
+        out.println("[" + title + "]");
+    }
+
+    public void showBlankLine() {
+        out.println();
     }
 
     public void showContacts(List<Contact> list) {
@@ -33,34 +64,34 @@ public class ContactPresenter {
     }
 
     public void showAddSuccess(Contact c) {
-        System.out.printf("Berhasil menambah kontak: %s%n", format(c));
+        out.println("Berhasil menambah kontak: " + format(c));
     }
 
     public void showRemoveSuccess() {
-        System.out.println("Berhasil menghapus kontak.");
+        out.println("Berhasil menghapus kontak.");
     }
 
     public void showRemoveFailed(int id) {
-        System.out.printf("[!] Gagal menghapus kontak dengan ID: %d.%n", id);
+        out.println("[!] Gagal menghapus kontak dengan ID: " + id + ".");
     }
 
     public void showUpdateSuccess() {
-        System.out.println("Berhasil mengubah kontak.");
+        out.println("Berhasil mengubah kontak.");
     }
 
     public void showUpdateFailed(int id) {
-        System.out.printf("[!] Gagal mengubah kontak dengan ID: %d.%n", id);
+        out.println("[!] Gagal mengubah kontak dengan ID: " + id + ".");
     }
 
     public void showInvalidChoice() {
-        System.out.println("[!] Pilihan tidak dimengerti.");
+        out.println("[!] Pilihan tidak dimengerti.");
     }
 
     public void showInvalidId() {
-        System.out.println("[!] ID tidak valid!");
+        out.println("[!] ID tidak valid!");
     }
 
     public void showInvalidSortOption() {
-        System.out.println("[!] Pilihan tidak valid!");
+        out.println("[!] Pilihan tidak valid!");
     }
 }

@@ -1,23 +1,45 @@
 package adapter.presenter;
 
 import domain.entity.Guest;
+import java.io.PrintStream;
 import java.util.List;
 
 public class GuestPresenter {
+    private final PrintStream out;
+
+    public GuestPresenter(PrintStream out) {
+        this.out = out;
+    }
 
     private String format(Guest g) {
-        return String.format("%d | %s | %s", g.getId(), g.getName(), g.getPurpose());
+        return g.getId() + " | " + g.getName() + " | " + g.getPurpose();
     }
 
     private void printList(List<Guest> list, String header, String emptyMessage) {
-        System.out.println(header);
+        out.println(header);
         if (list.isEmpty()) {
-            System.out.println(emptyMessage);
+            out.println(emptyMessage);
             return;
         }
         for (Guest g : list) {
-            System.out.println(format(g));
+            out.println(format(g));
         }
+    }
+
+    public void showMenu() {
+        out.println("Menu:");
+        out.println("1. Daftarkan");
+        out.println("2. Cari");
+        out.println("3. Hapus");
+        out.println("x. Keluar");
+    }
+
+    public void showTitle(String title) {
+        out.println("[" + title + "]");
+    }
+
+    public void showBlankLine() {
+        out.println();
     }
 
     public void showGuests(List<Guest> list) {
@@ -29,22 +51,22 @@ public class GuestPresenter {
     }
 
     public void showRegisterSuccess(Guest g) {
-        System.out.printf("Berhasil mendaftarkan tamu: %s%n", format(g));
+        out.println("Berhasil mendaftarkan tamu: " + format(g));
     }
 
     public void showRemoveSuccess() {
-        System.out.println("Berhasil menghapus tamu.");
+        out.println("Berhasil menghapus tamu.");
     }
 
     public void showRemoveFailed(int id) {
-        System.out.printf("[!] Gagal menghapus tamu dengan ID: %d.%n", id);
+        out.println("[!] Gagal menghapus tamu dengan ID: " + id + ".");
     }
 
     public void showInvalidChoice() {
-        System.out.println("[!] Pilihan tidak dimengerti.");
+        out.println("[!] Pilihan tidak dimengerti.");
     }
 
     public void showInvalidId() {
-        System.out.println("[!] ID tidak valid!");
+        out.println("[!] ID tidak valid!");
     }
 }

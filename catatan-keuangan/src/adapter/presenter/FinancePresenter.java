@@ -1,130 +1,105 @@
 package adapter.presenter;
 
 import domain.entity.Transaction;
-
 import java.io.PrintStream;
 import java.util.List;
 
 public class FinancePresenter {
     private final PrintStream out;
 
-    public FinancePresenter() {
-        this(System.out);
-    }
-
     public FinancePresenter(PrintStream out) {
         this.out = out;
     }
 
-    public String format(Transaction transaction) {
-        return transaction.getId()
-                + " | "
-                + transaction.getDescription()
-                + " | Rp "
-                + transaction.getAmount()
-                + " | "
-                + transaction.getType().getLabel();
+    private String format(Transaction t) {
+        return t.getId() + " | " + t.getDescription() + " | Rp " + t.getAmount() + " | " + t.getType().getLabel();
     }
 
-    public void added(Transaction transaction, long balance) {
-        out.println("Berhasil menambah transaksi: " + format(transaction));
-        out.println();
-    }
-
-    public void transactionList(List<Transaction> transactions, long balance) {
-        out.println("Daftar Transaksi:");
-        if (transactions.isEmpty()) {
-            out.println("- Belum ada transaksi!");
-        } else {
-            printList(transactions);
-        }
-        printBalance(balance);
-    }
-
-    public void searchResult(String keyword, List<Transaction> results, long balance) {
-        out.println("Hasil Pencarian: \"" + keyword + "\"");
-        if (results.isEmpty()) {
-            out.println("- Transaksi tidak ditemukan!");
-        } else {
-            printList(results);
-        }
-        out.println();
-    }
-
-    public void sortedList(List<Transaction> results, long balance) {
-        out.println("Daftar Transaksi (Terurut):");
-        printList(results);
-        out.println();
-    }
-
-    public void deleted() {
-        out.println("Berhasil menghapus transaksi.");
-        out.println();
-    }
-
-    public void currentBalance(long balance) {
-        out.println("Saldo saat ini: Rp " + balance);
-        out.println();
-    }
-
-    public void selectedChoice(String choice) {
-        String label;
-        switch (choice) {
-            case "1":
-                label = "Tambah Pemasukan";
-                break;
-            case "2":
-                label = "Tambah Pengeluaran";
-                break;
-            case "3":
-                label = "Cari Transaksi";
-                break;
-            case "4":
-                label = "Urutkan Transaksi";
-                break;
-            case "5":
-                return;
-            case "6":
-                label = "Hapus Transaksi";
-                break;
-            default:
-                return;
-        }
-        out.println("[" + label + "]");
-    }
-
-    public void invalidChoice() {
-        out.println("[!] Pilihan tidak dimengerti.");
-        out.println();
-    }
-
-    public void invalidSortChoice() {
-        out.println("[!] Pilihan tidak valid!");
-        out.println();
-    }
-
-    public void invalidAmount() {
-        out.println("[!] Jumlah tidak valid!");
-        out.println();
-    }
-
-    public void invalidId() {
-        out.println("[!] ID tidak valid!");
-        out.println();
-    }
-
-    public void deleteFailed(int id) {
-        out.println("[!] Gagal menghapus transaksi dengan ID: " + id + ".");
-        out.println();
-    }
-
-    private void printList(List<Transaction> transactions) {
-        for (Transaction transaction : transactions) {
-            out.println(format(transaction));
+    private void printItems(List<Transaction> list) {
+        for (Transaction t : list) {
+            out.println(format(t));
         }
     }
 
-    private void printBalance(long balance) {
+    private void printList(List<Transaction> list, String header, String emptyMessage) {
+        out.println(header);
+        if (list.isEmpty()) {
+            out.println(emptyMessage);
+            return;
+        }
+        printItems(list);
+    }
+
+    public void showMenu() {
+        out.println("Menu:");
+        out.println("1. Tambah Pemasukan");
+        out.println("2. Tambah Pengeluaran");
+        out.println("3. Cari");
+        out.println("4. Urutkan");
+        out.println("5. Lihat Saldo");
+        out.println("6. Hapus");
+        out.println("x. Keluar");
+    }
+
+    public void showSortMenu() {
+        out.println("1. Jumlah (Terkecil)");
+        out.println("2. Jumlah (Terbesar)");
+        out.println("3. Pemasukan Dulu");
+        out.println("4. Pengeluaran Dulu");
+        out.println("x. Batal");
+    }
+
+    public void showTitle(String title) {
+        out.println("[" + title + "]");
+    }
+
+    public void showBlankLine() {
+        out.println();
+    }
+
+    public void showTransactions(List<Transaction> list, long balance) {
+        printList(list, "Daftar Transaksi:", "- Belum ada transaksi!");
         out.println("Saldo: Rp " + balance);
+    }
+
+    public void showSearchResults(List<Transaction> list, String keyword) {
+        printList(list, "Hasil Pencarian: \"" + keyword + "\"", "- Transaksi tidak ditemukan!");
+    }
+
+    public void showSortedTransactions(List<Transaction> list) {
+        out.println("Daftar Transaksi (Terurut):");
+        printItems(list);
+    }
+
+    public void showBalance(long balance) {
+        out.println("Saldo saat ini: Rp " + balance);
+    }
+
+    public void showAddSuccess(Transaction t) {
+        out.println("Berhasil menambah transaksi: " + format(t));
+    }
+
+    public void showRemoveSuccess() {
+        out.println("Berhasil menghapus transaksi.");
+    }
+
+    public void showRemoveFailed(int id) {
+        out.println("[!] Gagal menghapus transaksi dengan ID: " + id + ".");
+    }
+
+    public void showInvalidChoice() {
+        out.println("[!] Pilihan tidak dimengerti.");
+    }
+
+    public void showInvalidId() {
+        out.println("[!] ID tidak valid!");
+    }
+
+    public void showInvalidAmount() {
+        out.println("[!] Jumlah tidak valid!");
+    }
+
+    public void showInvalidSortOption() {
+        out.println("[!] Pilihan tidak valid!");
     }
 }
