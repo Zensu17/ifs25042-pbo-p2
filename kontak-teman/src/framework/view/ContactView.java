@@ -59,7 +59,11 @@ public class ContactView {
             return;
         }
 
-        presenter.showAddSuccess(useCase.addContact(name, phone, email));
+        try {
+            presenter.showAddSuccess(useCase.addContact(name, phone, email));
+        } catch (IllegalArgumentException e) {
+            presenter.showError(e.getMessage());
+        }
     }
 
     private void updateContact() {

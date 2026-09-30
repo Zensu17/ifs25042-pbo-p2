@@ -11,7 +11,7 @@ public class Contact {
 
     public Contact(int id, String name, String phone, String email) {
         this.id = id;
-        this.name = name;
+        this.name = requireText(name, "Nama tidak boleh kosong!");
         this.phone = phone;
         this.email = email;
     }
@@ -39,5 +39,12 @@ public class Contact {
                 Objects.requireNonNullElse(name, this.name),
                 Objects.requireNonNullElse(phone, this.phone),
                 Objects.requireNonNullElse(email, this.email));
+    }
+
+    private static String requireText(String value, String message) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(message);
+        }
+        return value;
     }
 }

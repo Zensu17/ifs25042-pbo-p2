@@ -51,6 +51,10 @@ public class ContactPresenter {
         out.println();
     }
 
+    public void showError(String message) {
+        out.println("[!] " + message);
+    }
+
     public void showContacts(List<Contact> list) {
         printList(list, "Daftar Kontak:", "- Data kontak belum tersedia!");
     }

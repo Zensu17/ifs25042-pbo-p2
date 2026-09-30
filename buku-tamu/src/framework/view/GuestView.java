@@ -51,7 +51,11 @@ public class GuestView {
             return;
         }
 
-        presenter.showRegisterSuccess(useCase.registerGuest(name, purpose));
+        try {
+            presenter.showRegisterSuccess(useCase.registerGuest(name, purpose));
+        } catch (IllegalArgumentException e) {
+            presenter.showError(e.getMessage());
+        }
     }
 
     private void searchGuest() {

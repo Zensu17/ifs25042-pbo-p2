@@ -16,9 +16,9 @@ public class Activity {
 
     public Activity(int id, String title, String day, String time) {
         this.id = id;
-        this.title = title;
-        this.day = day;
-        this.time = time;
+        this.title = requireText(title, "Judul tidak boleh kosong!");
+        this.day = requireText(day, "Hari tidak boleh kosong!");
+        this.time = requireText(time, "Waktu tidak boleh kosong!");
     }
 
     public int getId() {
@@ -50,5 +50,12 @@ public class Activity {
     public int dayOrder() {
         int index = DAYS.indexOf(day.toLowerCase(Locale.ROOT));
         return index < 0 ? DAYS.size() : index;
+    }
+
+    private static String requireText(String value, String message) {
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(message);
+        }
+        return value;
     }
 }

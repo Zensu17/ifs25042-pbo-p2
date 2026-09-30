@@ -1,0 +1,201 @@
+Daftar Transaksi:
+- Belum ada transaksi!
+Saldo: Rp 0
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : [!] Pilihan tidak dimengerti.
+
+Daftar Transaksi:
+- Belum ada transaksi!
+Saldo: Rp 0
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : [Tambah Pemasukan]
+Keterangan (x Jika Batal) : Jumlah : Berhasil menambah transaksi: 1 | Gaji | Rp 5000000 | Pemasukan
+
+Daftar Transaksi:
+1 | Gaji | Rp 5000000 | Pemasukan
+Saldo: Rp 5000000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : [Tambah Pengeluaran]
+Keterangan (x Jika Batal) : Jumlah : Berhasil menambah transaksi: 2 | Makan | Rp 50000 | Pengeluaran
+
+Daftar Transaksi:
+1 | Gaji | Rp 5000000 | Pemasukan
+2 | Makan | Rp 50000 | Pengeluaran
+Saldo: Rp 4950000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : [Cari Transaksi]
+Kata Kunci (x Jika Batal) : Hasil Pencarian: "Makan"
+2 | Makan | Rp 50000 | Pengeluaran
+
+Daftar Transaksi:
+1 | Gaji | Rp 5000000 | Pemasukan
+2 | Makan | Rp 50000 | Pengeluaran
+Saldo: Rp 4950000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : [Urutkan Transaksi]
+1. Jumlah (Terkecil)
+2. Jumlah (Terbesar)
+3. Pemasukan Dulu
+4. Pengeluaran Dulu
+x. Batal
+Pilih : Daftar Transaksi (Terurut):
+1 | Gaji | Rp 5000000 | Pemasukan
+2 | Makan | Rp 50000 | Pengeluaran
+
+Daftar Transaksi:
+1 | Gaji | Rp 5000000 | Pemasukan
+2 | Makan | Rp 50000 | Pengeluaran
+Saldo: Rp 4950000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : Saldo saat ini: Rp 4950000
+
+Daftar Transaksi:
+1 | Gaji | Rp 5000000 | Pemasukan
+2 | Makan | Rp 50000 | Pengeluaran
+Saldo: Rp 4950000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : [Hapus Transaksi]
+ID Transaksi (x Jika Batal) : Berhasil menghapus transaksi.
+
+Daftar Transaksi:
+1 | Gaji | Rp 5000000 | Pemasukan
+Saldo: Rp 5000000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : [Tambah Pemasukan]
+Keterangan (x Jika Batal) : Jumlah : Berhasil menambah transaksi: 3 | Freelance | Rp 1500000 | Pemasukan
+
+Daftar Transaksi:
+1 | Gaji | Rp 5000000 | Pemasukan
+3 | Freelance | Rp 1500000 | Pemasukan
+Saldo: Rp 6500000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : [Urutkan Transaksi]
+1. Jumlah (Terkecil)
+2. Jumlah (Terbesar)
+3. Pemasukan Dulu
+4. Pengeluaran Dulu
+x. Batal
+Pilih : Daftar Transaksi (Terurut):
+1 | Gaji | Rp 5000000 | Pemasukan
+3 | Freelance | Rp 1500000 | Pemasukan
+
+Daftar Transaksi:
+1 | Gaji | Rp 5000000 | Pemasukan
+3 | Freelance | Rp 1500000 | Pemasukan
+Saldo: Rp 6500000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : [Cari Transaksi]
+Kata Kunci (x Jika Batal) : Hasil Pencarian: "freelance"
+3 | Freelance | Rp 1500000 | Pemasukan
+
+Daftar Transaksi:
+1 | Gaji | Rp 5000000 | Pemasukan
+3 | Freelance | Rp 1500000 | Pemasukan
+Saldo: Rp 6500000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : Saldo saat ini: Rp 6500000
+
+Daftar Transaksi:
+1 | Gaji | Rp 5000000 | Pemasukan
+3 | Freelance | Rp 1500000 | Pemasukan
+Saldo: Rp 6500000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : [Hapus Transaksi]
+ID Transaksi (x Jika Batal) : Berhasil menghapus transaksi.
+
+Daftar Transaksi:
+3 | Freelance | Rp 1500000 | Pemasukan
+Saldo: Rp 1500000
+Menu:
+1. Tambah Pemasukan
+2. Tambah Pengeluaran
+3. Cari
+4. Urutkan
+5. Lihat Saldo
+6. Hapus
+x. Keluar
+Pilih : 

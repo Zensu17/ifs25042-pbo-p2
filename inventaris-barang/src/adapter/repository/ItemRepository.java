@@ -22,8 +22,9 @@ public class ItemRepository implements IItemRepository {
 
     @Override
     public Item save(String name, int quantity, String category) {
-        Item item = new Item(nextId++, name, quantity, category);
+        Item item = new Item(nextId, name, quantity, category);
         data.add(item);
+        nextId++; // maju hanya jika entity valid, ID tidak pernah bolong
         return item;
     }
 

@@ -17,8 +17,9 @@ public class TransactionRepository implements ITransactionRepository {
 
     @Override
     public Transaction save(String description, long amount, TransactionType type) {
-        Transaction transaction = new Transaction(nextId++, description, amount, type);
+        Transaction transaction = new Transaction(nextId, description, amount, type);
         data.add(transaction);
+        nextId++; // maju hanya jika entity valid, ID tidak pernah bolong
         return transaction;
     }
 

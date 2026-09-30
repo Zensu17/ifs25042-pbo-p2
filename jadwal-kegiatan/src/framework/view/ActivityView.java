@@ -59,7 +59,11 @@ public class ActivityView {
             return;
         }
 
-        presenter.showAddSuccess(useCase.addActivity(title, day, time));
+        try {
+            presenter.showAddSuccess(useCase.addActivity(title, day, time));
+        } catch (IllegalArgumentException e) {
+            presenter.showError(e.getMessage());
+        }
     }
 
     private void updateActivity() {

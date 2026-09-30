@@ -22,8 +22,9 @@ public class ActivityRepository implements IActivityRepository {
 
     @Override
     public Activity save(String title, String day, String time) {
-        Activity activity = new Activity(nextId++, title, day, time);
+        Activity activity = new Activity(nextId, title, day, time);
         data.add(activity);
+        nextId++; // maju hanya jika entity valid, ID tidak pernah bolong
         return activity;
     }
 

@@ -1,0 +1,111 @@
+Daftar Tamu:
+- Data tamu belum tersedia!
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : [!] Pilihan tidak dimengerti.
+
+Daftar Tamu:
+- Data tamu belum tersedia!
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : [Mendaftarkan Tamu]
+Nama (x Jika Batal) : Tujuan Kunjungan (x Jika Batal) : Berhasil mendaftarkan tamu: 1 | Budi | Rapat
+
+Daftar Tamu:
+1 | Budi | Rapat
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : [Mendaftarkan Tamu]
+Nama (x Jika Batal) : Tujuan Kunjungan (x Jika Batal) : Berhasil mendaftarkan tamu: 2 | Ani | Kunjungan
+
+Daftar Tamu:
+1 | Budi | Rapat
+2 | Ani | Kunjungan
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : [Mencari Tamu]
+Nama (x Jika Batal) : Hasil Pencarian: "Budi"
+1 | Budi | Rapat
+
+Daftar Tamu:
+1 | Budi | Rapat
+2 | Ani | Kunjungan
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : [Menghapus Tamu]
+[ID Tamu] yang dihapus (x Jika Batal) : Berhasil menghapus tamu.
+
+Daftar Tamu:
+2 | Ani | Kunjungan
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : [Menghapus Tamu]
+[ID Tamu] yang dihapus (x Jika Batal) : [!] ID tidak valid!
+
+Daftar Tamu:
+2 | Ani | Kunjungan
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : [Menghapus Tamu]
+[ID Tamu] yang dihapus (x Jika Batal) : Berhasil menghapus tamu.
+
+Daftar Tamu:
+- Data tamu belum tersedia!
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : [Mendaftarkan Tamu]
+Nama (x Jika Batal) : Tujuan Kunjungan (x Jika Batal) : Berhasil mendaftarkan tamu: 3 | Citra | Interview
+
+Daftar Tamu:
+3 | Citra | Interview
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : [Mencari Tamu]
+Nama (x Jika Batal) : Hasil Pencarian: "citra"
+3 | Citra | Interview
+
+Daftar Tamu:
+3 | Citra | Interview
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : [Menghapus Tamu]
+[ID Tamu] yang dihapus (x Jika Batal) : Berhasil menghapus tamu.
+
+Daftar Tamu:
+- Data tamu belum tersedia!
+Menu:
+1. Daftarkan
+2. Cari
+3. Hapus
+x. Keluar
+Pilih : 

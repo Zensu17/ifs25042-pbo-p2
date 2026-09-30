@@ -1,0 +1,143 @@
+Daftar Kontak:
+- Data kontak belum tersedia!
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : [!] Pilihan tidak dimengerti.
+
+Daftar Kontak:
+- Data kontak belum tersedia!
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : [Menambah Kontak]
+Nama (x Jika Batal) : Telepon : Email : Berhasil menambah kontak: 1 | Budi | 081234567890 | budi@email.com
+
+Daftar Kontak:
+1 | Budi | 081234567890 | budi@email.com
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : [Menambah Kontak]
+Nama (x Jika Batal) : Telepon : Email : Berhasil menambah kontak: 2 | Ani | 082345678901 | ani@email.com
+
+Daftar Kontak:
+1 | Budi | 081234567890 | budi@email.com
+2 | Ani | 082345678901 | ani@email.com
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : [Mengubah Kontak]
+ID Kontak yang diubah (x Jika Batal) : Nama Baru (Kosongkan jika tidak ingin mengubah) : Telepon Baru (Kosongkan jika tidak ingin mengubah) : Email Baru (Kosongkan jika tidak ingin mengubah) : Berhasil mengubah kontak.
+
+Daftar Kontak:
+1 | Budi | 081234567890 | budi@email.com
+2 | Ani Updated | 089876543210 | ani@email.com
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : [Mencari Kontak]
+Kata Kunci (x Jika Batal) : Hasil Pencarian: "Budi"
+1 | Budi | 081234567890 | budi@email.com
+
+Daftar Kontak:
+1 | Budi | 081234567890 | budi@email.com
+2 | Ani Updated | 089876543210 | ani@email.com
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : [Mengurutkan Kontak]
+Pilihan Pengurutan:
+1. Nama (A-Z)
+2. Nama (Z-A)
+x. Batal
+Pilih : Daftar Kontak (Terurut):
+2 | Ani Updated | 089876543210 | ani@email.com
+1 | Budi | 081234567890 | budi@email.com
+
+Daftar Kontak:
+1 | Budi | 081234567890 | budi@email.com
+2 | Ani Updated | 089876543210 | ani@email.com
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : [Menghapus Kontak]
+[ID Kontak] yang dihapus (x Jika Batal) : Berhasil menghapus kontak.
+
+Daftar Kontak:
+1 | Budi | 081234567890 | budi@email.com
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : [Menambah Kontak]
+Nama (x Jika Batal) : Telepon : Email : Berhasil menambah kontak: 3 | Citra | 083456789012 | citra@email.com
+
+Daftar Kontak:
+1 | Budi | 081234567890 | budi@email.com
+3 | Citra | 083456789012 | citra@email.com
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : [Mencari Kontak]
+Kata Kunci (x Jika Batal) : Hasil Pencarian: "Citra"
+3 | Citra | 083456789012 | citra@email.com
+
+Daftar Kontak:
+1 | Budi | 081234567890 | budi@email.com
+3 | Citra | 083456789012 | citra@email.com
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : [Menghapus Kontak]
+[ID Kontak] yang dihapus (x Jika Batal) : Berhasil menghapus kontak.
+
+Daftar Kontak:
+1 | Budi | 081234567890 | budi@email.com
+Menu:
+1. Tambah
+2. Ubah
+3. Cari
+4. Urutkan
+5. Hapus
+x. Keluar
+Pilih : 

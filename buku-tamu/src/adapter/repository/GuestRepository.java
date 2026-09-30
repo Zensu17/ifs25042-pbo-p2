@@ -16,8 +16,9 @@ public class GuestRepository implements IGuestRepository {
 
     @Override
     public Guest save(String name, String purpose) {
-        Guest guest = new Guest(nextId++, name, purpose);
+        Guest guest = new Guest(nextId, name, purpose);
         data.add(guest);
+        nextId++; // maju hanya jika entity valid, ID tidak pernah bolong
         return guest;
     }
 

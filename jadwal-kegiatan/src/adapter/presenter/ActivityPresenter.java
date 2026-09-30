@@ -53,6 +53,10 @@ public class ActivityPresenter {
         out.println();
     }
 
+    public void showError(String message) {
+        out.println("[!] " + message);
+    }
+
     public void showActivities(List<Activity> list) {
         printList(list, "Daftar Kegiatan:", "- Data kegiatan belum tersedia!");
     }

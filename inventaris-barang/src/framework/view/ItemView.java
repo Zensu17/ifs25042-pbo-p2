@@ -65,7 +65,11 @@ public class ItemView {
             return;
         }
 
-        presenter.showAddSuccess(useCase.addItem(name, quantity, category));
+        try {
+            presenter.showAddSuccess(useCase.addItem(name, quantity, category));
+        } catch (IllegalArgumentException e) {
+            presenter.showError(e.getMessage());
+        }
     }
 
     private void updateStock() {
@@ -80,7 +84,12 @@ public class ItemView {
             return;
         }
 
-        String strQuantity = blankToNull(input.input("Jumlah Baru (Kosongkan jika tidak ingin mengubah)"));
+        String rawQuantity = input.input("Jumlah Baru (Kosongkan jika tidak ingin mengubah)");
+        if (InputUtil.isCancel(rawQuantity)) {
+            return;
+        }
+
+        String strQuantity = blankToNull(rawQuantity);
         Integer quantity = null; // null berarti stok tidak diubah
         if (strQuantity != null) {
             quantity = parseQuantity(strQuantity);

@@ -53,6 +53,10 @@ public class ItemPresenter {
         out.println();
     }
 
+    public void showError(String message) {
+        out.println("[!] " + message);
+    }
+
     public void showItems(List<Item> list) {
         printList(list, "Daftar Barang:", "- Data barang belum tersedia!");
     }

@@ -42,6 +42,10 @@ public class GuestPresenter {
         out.println();
     }
 
+    public void showError(String message) {
+        out.println("[!] " + message);
+    }
+
     public void showGuests(List<Guest> list) {
         printList(list, "Daftar Tamu:", "- Data tamu belum tersedia!");
     }

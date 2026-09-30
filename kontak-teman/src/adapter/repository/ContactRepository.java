@@ -22,8 +22,9 @@ public class ContactRepository implements IContactRepository {
 
     @Override
     public Contact save(String name, String phone, String email) {
-        Contact contact = new Contact(nextId++, name, phone, email);
+        Contact contact = new Contact(nextId, name, phone, email);
         data.add(contact);
+        nextId++; // maju hanya jika entity valid, ID tidak pernah bolong
         return contact;
     }
 

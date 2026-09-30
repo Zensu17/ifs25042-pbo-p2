@@ -51,13 +51,22 @@ public class FinanceView {
             return;
         }
 
-        Long amount = parsePositiveAmount(input.input("Jumlah"));
+        String strAmount = input.input("Jumlah");
+        if (InputUtil.isCancel(strAmount)) {
+            return;
+        }
+
+        Long amount = parsePositiveAmount(strAmount);
         if (amount == null) {
             presenter.showInvalidAmount();
             return;
         }
 
-        presenter.showAddSuccess(useCase.addTransaction(description, amount, type));
+        try {
+            presenter.showAddSuccess(useCase.addTransaction(description, amount, type));
+        } catch (IllegalArgumentException e) {
+            presenter.showError(e.getMessage());
+        }
     }
 
     private void searchTransaction() {

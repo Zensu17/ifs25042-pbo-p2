@@ -57,6 +57,10 @@ public class FinancePresenter {
         out.println();
     }
 
+    public void showError(String message) {
+        out.println("[!] " + message);
+    }
+
     public void showTransactions(List<Transaction> list, long balance) {
         printList(list, "Daftar Transaksi:", "- Belum ada transaksi!");
         out.println("Saldo: Rp " + balance);
